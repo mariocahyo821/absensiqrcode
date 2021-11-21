@@ -93,7 +93,7 @@ if ( isset($_POST["cari"]) ) {
                     <ul class="nav child_menu">
                       <li><a href="mahasiswa.php">Data Mahasiswa</a></li>
                       <li><a href="dosen.php">Data Dosen</a></li>
-                      <li><a href="histo.php">Data Mata Kuliah</a></li>
+                      <li><a href="matkul.php">Data Mata Kuliah</a></li>
                     </ul>
                   </li>
                   <li><a href="calendar.php"><i class="fa fa-calendar"></i>Calendar</a></li>
