@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2021 at 01:41 AM
--- Server version: 10.1.31-MariaDB
--- PHP Version: 7.2.4
+-- Generation Time: Nov 21, 2021 at 09:59 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.4.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,21 +31,21 @@ CREATE TABLE `absen` (
   `id` int(11) NOT NULL,
   `id_mk` int(11) NOT NULL,
   `mahasiswa` varchar(50) NOT NULL,
-  `time` varchar(50) NOT NULL
+  `time` varchar(50) NOT NULL,
+  `status` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `absen`
 --
 
-INSERT INTO `absen` (`id`, `id_mk`, `mahasiswa`, `time`) VALUES
-(34, 7, 'Mario Cahyo Wibowo19621001', 'Tuesday, 26-Oct-2021 05:33:15 pm'),
-(35, 8, 'Akbar Maulana19621032', 'Tuesday, 26-Oct-2021 17:34:10 pm'),
-(36, 8, 'Mario Cahyo Wibowo19621001', 'Tuesday, 26-Oct-2021 18:05:18 pm'),
-(37, 9, 'Mario Cahyo Wibowo19621001', 'Tuesday, 26-Oct-2021 18:05:46 pm'),
-(38, 8, 'S2008001', 'Tuesday, 26-Oct-2021 18:07:34 pm'),
-(39, 7, 'TIK0808011395', 'Tuesday, 26-Oct-2021 18:10:24 pm'),
-(40, 8, 'Akbar Maulana19621032', 'Tuesday, 26-Oct-2021 18:17:39 pm');
+INSERT INTO `absen` (`id`, `id_mk`, `mahasiswa`, `time`, `status`) VALUES
+(61, 10, 'absensiqrcode/Andika Sikoway/19621028', 'Sunday, 07-Nov-2021 15:48:01 pm', 1),
+(62, 7, 'absensiqrcode/Julio Stiven/19621045', 'Sunday, 07-Nov-2021 15:49:33 pm', 1),
+(63, 7, 'absensiqrcode/Julio Stiven/19621045', 'Wednesday, 17-Nov-2021 00:05:00 am', 1),
+(64, 8, 'absensiqrcode/Akbar Maulana/19621032', 'Wednesday, 17-Nov-2021 00:05:47 am', 1),
+(65, 9, 'absensiqrcode/Hosea Kanggunum/19621069', 'Wednesday, 17-Nov-2021 00:06:08 am', 1),
+(66, 7, 'TIK0808011395', 'Friday, 19-Nov-2021 15:29:11 pm', 1);
 
 -- --------------------------------------------------------
 
@@ -70,7 +69,8 @@ INSERT INTO `data_dosen` (`id_dosen`, `nama_dosen`, `no_hp`, `jenkel`, `tgl_lahi
 (8, 'Mursalim, S.Kom, E.ng', 838385843, 'Laki-Laki', '2021-10-04'),
 (9, 'Andrian S,Kom, M.Kom', 838385843, 'Laki-Laki', '2021-10-06'),
 (10, 'Siti Nurhayati', 2147483647, 'Laki-Laki', '2021-09-27'),
-(11, 'Riandi.S,Kom M.Kom', 2147483647, 'Laki-Laki', '2021-09-27');
+(11, 'Riandi.S,Kom M.Kom', 2147483647, 'Laki-Laki', '2021-09-27'),
+(12, 'Jumawati,s.Kom ,M.Kom', 2147483647, 'Perempuan', '2020-12-10');
 
 -- --------------------------------------------------------
 
@@ -81,11 +81,17 @@ INSERT INTO `data_dosen` (`id_dosen`, `nama_dosen`, `no_hp`, `jenkel`, `tgl_lahi
 CREATE TABLE `data_jadwal` (
   `id_jadwal` int(11) NOT NULL,
   `id_mk` int(11) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
-  `nama_matkul` varchar(50) NOT NULL,
   `hari` varchar(10) NOT NULL,
   `jam` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `data_jadwal`
+--
+
+INSERT INTO `data_jadwal` (`id_jadwal`, `id_mk`, `hari`, `jam`) VALUES
+(3, 8, 'Rabu', '09:00'),
+(4, 7, 'Senin', '21:54');
 
 -- --------------------------------------------------------
 
@@ -156,7 +162,9 @@ CREATE TABLE `data_matakuliah` (
 INSERT INTO `data_matakuliah` (`id_mk`, `nama_mk`, `dosen`, `sks`, `jenis`, `semester`) VALUES
 (7, 'Pemograman Web I', 'Andrian S,Kom, M.Kom', 3, 'Materi', '1'),
 (8, 'Rekayasa Perangkat Lunak', 'Siti Nurhayati', 3, 'Materi', '5'),
-(9, 'Pemograman Web II', 'Andrian S,Kom, M.Kom', 1, 'Materi', '2');
+(9, 'Pemograman Web II', 'Andrian S,Kom, M.Kom', 1, 'Materi', '2'),
+(10, 'Sistem Pendukung Keputusan', 'Siti Nurhayati', 2, 'Materi', '5'),
+(11, 'Aljabar Linier', 'Jumawati,s.Kom ,M.Kom', 2, 'Materi', '5');
 
 -- --------------------------------------------------------
 
@@ -204,8 +212,7 @@ ALTER TABLE `data_dosen`
 --
 ALTER TABLE `data_jadwal`
   ADD PRIMARY KEY (`id_jadwal`),
-  ADD KEY `id_mk` (`id_mk`),
-  ADD KEY `id_dosen` (`id_dosen`);
+  ADD KEY `id_mk` (`id_mk`);
 
 --
 -- Indexes for table `data_kehadiran`
@@ -239,19 +246,19 @@ ALTER TABLE `data_user`
 -- AUTO_INCREMENT for table `absen`
 --
 ALTER TABLE `absen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `data_dosen`
 --
 ALTER TABLE `data_dosen`
-  MODIFY `id_dosen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_dosen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `data_jadwal`
 --
 ALTER TABLE `data_jadwal`
-  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `data_kehadiran`
@@ -269,7 +276,7 @@ ALTER TABLE `data_mahasiswa`
 -- AUTO_INCREMENT for table `data_matakuliah`
 --
 ALTER TABLE `data_matakuliah`
-  MODIFY `id_mk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_mk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `data_user`
@@ -291,8 +298,7 @@ ALTER TABLE `absen`
 -- Constraints for table `data_jadwal`
 --
 ALTER TABLE `data_jadwal`
-  ADD CONSTRAINT `data_jadwal_ibfk_1` FOREIGN KEY (`id_mk`) REFERENCES `data_matakuliah` (`id_mk`),
-  ADD CONSTRAINT `data_jadwal_ibfk_2` FOREIGN KEY (`id_dosen`) REFERENCES `data_dosen` (`id_dosen`);
+  ADD CONSTRAINT `data_jadwal_ibfk_1` FOREIGN KEY (`id_mk`) REFERENCES `data_matakuliah` (`id_mk`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
